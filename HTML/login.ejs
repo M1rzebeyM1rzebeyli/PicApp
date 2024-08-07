@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <title>Login</title>
+</head>
+
+<body>
+
+
+
+
+
+    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp" class="w-100"
+        style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
+
+
+
+    <form class="px-md-2" id="form">
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="username">Your username</label>
+            <input type="text" id="username" name="username" class="form-control" />
+            <span class="error" id="usernameerror"></span>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="password">Your password</label>
+            <input type="password" id="password" name="password" class="form-control" />
+            <span class="error" id="passworderror"></span>
+        </div>
+
+        <button type="submit" data-mdb-button-init data-mdb-ripple-init
+            class="btn btn-success btn-lg mb-1">Submit</button>
+
+        <p class="mb-4 pb-2 pb-md-0 mb-md-5 ">
+            haven't your account?
+            <a href="/signup">Sign up</a>
+        </p>
+
+    </form>
+
+
+
+
+
+
+
+
+    <script src="/js/login.js"></script>
+</body>
+
+</html>
