@@ -1,45 +1,36 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import '../App.css'
+document.getElementById("form").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-const SignUp = () => {
-    const [fullname, setFullname] = useState('')
-    const [username, setusername] = useState('')
-    const [email, setemail] = useState('')
-    const [password, setpassword] = useState('')
+    const keys = ["name", "surname", "username", "email", "password"]
 
-    const submit = (e) => {
-        console.log(fullname)
-        e.preventDefault()
-        const register = {
-            fullname: fullname,
-            username: username,
-            email: email,
-            password: password
-        }
-        axios.post('http://localhost:8000/app/signup', register)
-            .then(res => console.log(res.data)).then(data => { alert('SignUp SuccessFully') })
+    keys.forEach(key => {
+        document.getElementById(`${key}error`).innerText = "";
+    });
+
+    const form = document.getElementById("form");
+    const formData = new FormData(form);
+
+    let res = await fetch("/api/user/signup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: formData.get("name"),
+            surname: formData.get("surname"),
+            username: formData.get("username"),
+            email: formData.get("email"),
+            password: formData.get("password"),
+        })
+    });
+
+    res = await res.json()
+
+    if (res.success) {
+        window.location.href = "/login";
+    } else {
+        Object.keys(res.errors).forEach(key => {
+            document.getElementById(`${key}error`).innerText = res.errors[key]
+        });
     }
-    return (
-        <div>
-            <div className="container">
-                <div className="form-div">
-                    <form onSubmit={submit} >
-                        <input type="text" placeholder="FullName" required onChange={(e) => setFullname(e.target.value)} />
-                        <br />
-                        <input type="text" placeholder="Username" required onChange={(e) => setusername(e.target.value)} />
-                        <br />
-                        <input type="text" placeholder="Email" required onChange={(e) => setemail(e.target.value)} />
-                        <br />
-                        <input type="text" placeholder="Password" required onChange={(e) => setpassword(e.target.value)} />
-                        <br />
-                        <input type="submit" value="Submit" />
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    )
-}
-
-export default SignUp
+});

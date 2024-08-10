@@ -1,45 +1,33 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import '../App.css'
+document.getElementById("form").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-const Login = () => {
-    const [email, setemail] = useState('')
-    const [password, setpassword] = useState('')
-    const submit = (e) => {
-        e.preventDefault()
-        axios.post('http://localhost:8000/app/login', { email: email, password: password })
-            .then(res => {
-                console.log(res.data)
-                if (res.data.t) {
-                    alert('login SuccessFully')
-                } else if (res.data.error) {
-                    alert('User Not Found')
-                }
-                else {
-                    alert('Please Provide the correct information')
-                }
-            })
-            .catch(err => {
-                alert('Error')
-            })
+    const keys = ["username", "password"]
+
+    keys.forEach(key => {
+        document.getElementById(`${key}error`).innerText = "";
+    });
+
+    const form = document.getElementById("form");
+    const formData = new FormData(form);
+
+    let res = await fetch("/api/user/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: formData.get("username"),
+            password: formData.get("password"),
+        })
+    });
+
+    res = await res.json()
+
+    if (res.success) {
+        window.location.href = "/";
+    } else {
+        Object.keys(res.errors).forEach(key => {
+            document.getElementById(`${key}error`).innerText = res.errors[key]
+        });
     }
-
-    return (
-        <>
-            <div className="container">
-                <div className="form-div">
-                    <form onSubmit={submit} >
-                        <input type="text" placeholder="Email" required onChange={(e) => setemail(e.target.value)} />
-                        <br />
-                        <input type="text" placeholder="Password" required onChange={(e) => setpassword(e.target.value)} />
-                        <br />
-                        <input type="submit" value="Submit" />
-                    </form>
-                </div>
-            </div>
-
-        </>
-    )
-}
-
-export default Login
+});
