@@ -1,4 +1,4 @@
-const isValidPassword = (password) => {
+const isValidPassword = (password) => {  // 12345678
     const hasNumber = /\d/;
     const hasLowerCase = /[a-z]/;
     const hasUpperCase = /[A-Z]/;

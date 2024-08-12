@@ -4,7 +4,6 @@ const {
     createUser,
     loginUser
 } = require("../controllers/userController");
-const { authenticatePage } = require("../middlewares/authMiddleWare");
 
 router.route("/signup")
     .post(createUser);

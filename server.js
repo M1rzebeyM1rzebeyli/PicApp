@@ -6,6 +6,9 @@ import bodyParser from 'body-parser';
 import connection from "./database/connection.js";
 
 dotenv.config();
+
+connection();
+
 const app = express();
 const port = process.env.PORT || 8000;
 

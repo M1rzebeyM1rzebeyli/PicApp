@@ -25,8 +25,22 @@ const createUser = async (req, res) => {
             Object.keys(err.errors).forEach(key => {
                 errors[key] = err.errors[key].message
             });
-        }; 
-       
+        };
+
+        if (err.name === "MongoServerError" && err.code === 11000) {
+            if (err.keyPattern.username) {
+                errors.username = 'Username is used, try other username';
+            };
+
+            if (err.keyPattern.email) {
+                errors.email = 'Email is used, try other email';
+            };
+        };
+
+        res.status(400).json({
+            success: false,
+            errors
+        });
     };
 };
 
